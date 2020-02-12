@@ -72,7 +72,7 @@ final class Updater
     {
         $this->createDistDirectory();
 
-        $citiesConverter = new CitiesConverter($this->citiesPath, $this->serializer);
+        $citiesConverter = new CitiesConverter($this->citiesPath);
 
         file_put_contents(self::DESTINATION.'/cities.csv', $citiesConverter->getCsv());
         file_put_contents(self::DESTINATION.'/cities.xml', $citiesConverter->getXml());
@@ -84,7 +84,7 @@ final class Updater
     {
         $this->createDistDirectory();
 
-        $regionsConverter = new RegionsConverter($this->regionsPath, $this->serializer);
+        $regionsConverter = new RegionsConverter($this->regionsPath);
 
         file_put_contents(self::DESTINATION.'/regions.csv', $regionsConverter->getCsv());
         file_put_contents(self::DESTINATION.'/regions.xml', $regionsConverter->getXml());
