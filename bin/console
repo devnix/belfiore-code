@@ -1,10 +1,18 @@
 #!/usr/bin/env php
 <?php
 
-require __DIR__.'/../vendor/autoload.php';
-
 use Devnix\BelfioreCode\Command;
 use Symfony\Component\Console\Application;
+
+if (!file_exists(__DIR__.'/../vendor/autoload.php')) {
+	throw new Error('Cannot load "/vendor/autoload.php". Please run "composer install"');
+}
+
+require __DIR__.'/../vendor/autoload.php';
+
+if (!class_exists('Symfony\Component\Console\Application')) {
+	throw new Error('Cannot find "Symfony\Component\Console\Application" class. Please run "composer install"');
+}
 
 $application = new Application('devnix/belfiore-code');
 

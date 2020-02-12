@@ -9,7 +9,13 @@
         }
     },
     "require-dev": {
-        "symfony/console": "^4.4|^5.0"
+        "ext-zip": "*",
+        "symfony/console": "^4.4|^5.0",
+        "symfony/serializer": "^4.4|^5.0",
+        "symfony/error-handler": "^4.4|^5.0",
+        "symfony/yaml": "^4.4|^5.0",
+        "devnix/zip-exception": "^0.1.0",
+        "phpoffice/phpspreadsheet": "^1.10"
     },
     "require": {
         "php": "^7.1.3"
