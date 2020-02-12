@@ -16,7 +16,7 @@ class UpdateCommand extends Command
     {
         $this
         	->setDescription('Updates the data source')
-        	->setHelp('Crawls Italian Belfiore codes and foreign country codes and updates the library from the official sources');
+        	->setHelp('Crawls Italian Belfiore codes and foreign region codes and updates the library from the official sources');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

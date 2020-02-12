@@ -27,7 +27,7 @@ final class Updater
      * @link https://www.istat.it
      * @license cc-by-4.0
      */
-    protected const COUNTRIES = 'https://www.istat.it/it/files/2011/01/Elenco-codici-e-denominazioni-unita-territoriali-estere-1.zip';
+    protected const REGIONS = 'https://www.istat.it/it/files/2011/01/Elenco-codici-e-denominazioni-unita-territoriali-estere-1.zip';
 
     /**
      * @var string
@@ -47,20 +47,20 @@ final class Updater
     /**
      * @var string
      */
-    protected $countriesPath;
+    protected $regionsPath;
 
     public function __construct()
     {
         $this->serializer = new Serializer([], [new CsvEncoder(), new XmlEncoder(), new JsonEncoder()]);
 
         $this->citiesPath = $this->downloadTmpCities();
-        $this->countriesPath = $this->downloadTmpCountries();
+        $this->regionsPath = $this->downloadTmpRegions();
     }
 
     public function __destruct()
     {
         $this->removeTmpCities();
-        $this->removeTmpCountries();
+        $this->removeTmpRegions();
     }
 
     /**
@@ -84,12 +84,12 @@ final class Updater
     {
         $this->createDistDirectory();
 
-        $countriesConverter = new RegionsConverter($this->countriesPath, $this->serializer);
+        $regionsConverter = new RegionsConverter($this->regionsPath, $this->serializer);
 
-        file_put_contents(self::DESTINATION.'/countries.csv', $countriesConverter->getCsv());
-        file_put_contents(self::DESTINATION.'/countries.xml', $countriesConverter->getXml());
-        file_put_contents(self::DESTINATION.'/countries.json', $countriesConverter->getJson());
-        file_put_contents(self::DESTINATION.'/countries.yaml', $countriesConverter->getYaml());
+        file_put_contents(self::DESTINATION.'/regions.csv', $regionsConverter->getCsv());
+        file_put_contents(self::DESTINATION.'/regions.xml', $regionsConverter->getXml());
+        file_put_contents(self::DESTINATION.'/regions.json', $regionsConverter->getJson());
+        file_put_contents(self::DESTINATION.'/regions.yaml', $regionsConverter->getYaml());
     }
 
     protected function createDistDirectory(): void
@@ -110,13 +110,13 @@ final class Updater
         });
     }
 
-    protected function downloadTmpCountries(): string
+    protected function downloadTmpRegions(): string
     {
         return ErrorHandler::call(static function () {
             $tmpZip = tempnam(sys_get_temp_dir(), 'devnix-belfiore-code-cities.zip.');
-            $tmpPath = tempnam(sys_get_temp_dir(), 'devnix-belfiore-code-countries.xlsx.');
+            $tmpPath = tempnam(sys_get_temp_dir(), 'devnix-belfiore-code-regions.xlsx.');
 
-            file_put_contents($tmpZip, file_get_contents(self::COUNTRIES));
+            file_put_contents($tmpZip, file_get_contents(self::REGIONS));
 
             $zip = new ZipArchive();
 
@@ -143,14 +143,14 @@ final class Updater
         unset($this->citiesPath);
     }
 
-    protected function removeTmpCountries(): void
+    protected function removeTmpRegions(): void
     {
         if (empty($this->citiesPath)) {
             return;
         }
 
         try {
-            ErrorHandler::call('unlink', $this->countriesPath);
+            ErrorHandler::call('unlink', $this->regionsPath);
         } catch (\Exception $e) {};
 
         unset($this->citiesPath);

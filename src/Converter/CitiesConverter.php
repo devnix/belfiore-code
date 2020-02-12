@@ -59,17 +59,17 @@ class CitiesConverter extends AbstractConverter
     /**
      * @var array
      */
-    protected $countries;
+    protected $regions;
 
     public function __construct(string $path)
     {
         parent::__construct();
 
         $this->path = $path;
-        $this->countries = $this->serializer->decode(ErrorHandler::call('file_get_contents', $path), 'csv', array(CsvEncoder::DELIMITER_KEY => ','));
+        $this->regions = $this->serializer->decode(ErrorHandler::call('file_get_contents', $path), 'csv', array(CsvEncoder::DELIMITER_KEY => ','));
 
-        $this->countries = $this->convertColumns($this->countries);
-        $this->countries = $this->convertValues($this->countries);
+        $this->regions = $this->convertColumns($this->regions);
+        $this->regions = $this->convertValues($this->regions);
     }
 
     /**
@@ -107,6 +107,6 @@ class CitiesConverter extends AbstractConverter
 
     public function getData(): array
     {
-        return $this->countries;
+        return $this->regions;
     }
 }

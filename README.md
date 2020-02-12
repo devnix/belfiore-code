@@ -42,7 +42,7 @@ may change in the short term.
 # Attribution
 
 - Cities List of Values: CC BY 4.0 Ministero dell'interno
-- Countries List of Values: CC BY 3.0 Istituto nazionale di statistica
+- Regions List of Values: CC BY 3.0 Istituto nazionale di statistica
 
 Inspired by [Marketto/codice-fiscale-utils](https://github.com/Marketto/codice-fiscale-utils), done to use in
 conjunction with [DavidePastore/codice-fiscale](https://github.com/DavidePastore/codice-fiscale)

@@ -1,6 +1,6 @@
 {
     "name": "devnix/belfiore-code",
-    "description": "Serialized data of Italian Belfiore codes and foreign country codes",
+    "description": "Serialized data of Italian Belfiore codes and foreign region codes",
     "type": "library",
     "license": "CC BY 4.0",
     "autoload": {
