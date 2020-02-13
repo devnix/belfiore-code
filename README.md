@@ -41,7 +41,7 @@ language.
 ### PHP
 
 There is a `Devnix\BelfioreCode\Collection\ComuneCollection` and a 
-`Devnix\BelfioreCode\Collection\ComuneCollection` to get an `ArrayCollection`
+`Devnix\BelfioreCode\Collection\RegionCollection` to get an `ArrayCollection`
 filled with both databases. This enables you to directly iterate through them
 like an array, or even perform queries of columns.
 
