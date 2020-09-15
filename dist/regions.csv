@@ -36,7 +36,7 @@ state,1,Europa,11,"Unione europea",249,Lituania,Lithuania,249,Z146,440,LT,LTU,,
 state,1,Europa,11,"Unione europea",250,Croazia,Croatia,250,Z149,191,HR,HRV,,
 state,1,Europa,11,"Unione europea",251,Slovenia,Slovenia,251,Z150,705,SI,SVN,,
 state,1,Europa,12,"Europa centro orientale",252,Bosnia-Erzegovina,"Bosnia and Herzegovina",252,Z153,070,BA,BIH,,
-state,1,Europa,12,"Europa centro orientale",253,"Ex Repubblica Jugoslava di Macedonia","The former Yugoslav Republic of Macedonia",253,Z148,807,MK,MKD,,
+state,1,Europa,12,"Europa centro orientale",253,"Macedonia del Nord","North Macedonia",253,Z148,807,MK,MKD,,
 state,1,Europa,12,"Europa centro orientale",254,Moldova,Moldova,254,Z140,498,MD,MDA,,
 state,1,Europa,11,"Unione europea",255,Slovacchia,Slovakia,255,Z155,703,SK,SVK,,
 state,1,Europa,12,"Europa centro orientale",256,Bielorussia,Belarus,256,Z139,112,BY,BLR,,
@@ -198,7 +198,7 @@ state,5,Oceania,50,Oceania,731,Tuvalu,Tuvalu,731,Z732,798,TV,TUV,,
 state,5,Oceania,50,Oceania,732,Vanuatu,Vanuatu,732,Z733,548,VU,VUT,,
 territory,5,Oceania,50,Oceania,902,"Nuova Caledonia","New Caledonia",718,Z716,n.d.,NC,NCL,215,FRA
 territory,4,America,42,"America centro meridionale",904,"Saint-Martin (FR)","Saint Martin (FR)",542,n.d.,n.d.,MF,MAF,215,FRA
-territory,2,Africa,22,"Africa settentrionale",905,"Sahara occidentale","Western Sahara",n.d.,Z339,n.d.,EH,ESH,436,MAR
+territory,2,Africa,21,"Africa settentrionale",905,"Sahara occidentale","Western Sahara",n.d.,Z339,n.d.,EH,ESH,,
 territory,4,America,42,"America centro meridionale",906,Saint-Barthélemy,"Saint Barthelemy",541,n.d.,n.d.,BL,BLM,215,FRA
 territory,4,America,41,"America settentrionale",908,Bermuda,Bermuda,508,Z400,n.d.,BM,BMU,219,GBR
 territory,5,Oceania,50,Oceania,909,"Isole Cook (NZ)","Cook Islands (NZ)",702,Z703,n.d.,CK,COK,719,NZL
