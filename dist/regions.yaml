@@ -597,8 +597,8 @@
       istat_area_code: 12
       area_name_it: 'Europa centro orientale'
       istat_id: 253
-      name_it: 'Ex Repubblica Jugoslava di Macedonia'
-      name_en: 'The former Yugoslav Republic of Macedonia'
+      name_it: 'Macedonia del Nord'
+      name_en: 'North Macedonia'
       anpr_id: '253'
       registry_code: Z148
       unsd_m49_id: '807'
@@ -3186,7 +3186,7 @@
       region_type: territory
       istat_continent_id: 2
       continent_name_it: Africa
-      istat_area_code: 22
+      istat_area_code: 21
       area_name_it: 'Africa settentrionale'
       istat_id: 905
       name_it: 'Sahara occidentale'
@@ -3196,8 +3196,8 @@
       unsd_m49_id: n.d.
       iso-3166-1-alpha-2: EH
       iso-3166-1-alpha-3: ESH
-      istat-parent-state-code: 436
-      parent-iso-3166-1-alpha-3: MAR
+      istat-parent-state-code: null
+      parent-iso-3166-1-alpha-3: null
   -
       region_type: territory
       istat_continent_id: 4

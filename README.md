@@ -1,5 +1,7 @@
 # devnix/belfiore-code
 
+[![Join the chat at https://gitter.im/DevNIX/belfiore-code](https://badges.gitter.im/DevNIX/belfiore-code.svg)](https://gitter.im/DevNIX/belfiore-code?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Official Italian Belfiore code list (cadastral code) which represents a 
 [comune](https://en.wikipedia.org/wiki/Comune).
 
@@ -41,7 +43,7 @@ language.
 ### PHP
 
 There is a `Devnix\BelfioreCode\Collection\ComuneCollection` and a 
-`Devnix\BelfioreCode\Collection\ComuneCollection` to get an `ArrayCollection`
+`Devnix\BelfioreCode\Collection\RegionCollection` to get an `ArrayCollection`
 filled with both databases. This enables you to directly iterate through them
 like an array, or even perform queries of columns.
 
