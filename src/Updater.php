@@ -4,6 +4,7 @@ namespace Devnix\BelfioreCode;
 
 use Devnix\BelfioreCode\Converter\CitiesConverter;
 use Devnix\BelfioreCode\Converter\RegionsConverter;
+use Devnix\BelfioreCode\Exception\UpdaterException;
 use Devnix\ZipException\ZipException;
 use Symfony\Component\ErrorHandler\ErrorHandler;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
@@ -124,9 +125,14 @@ final class Updater
                 throw new ZipException($zipStatus);
             }
 
-            file_put_contents($tmpPath, $zip->getFromName('Elenco-codici-e-denominazioni-unita-territoriali-estere/Elenco-codici-e-denominazioni-al-31_12_2019.xlsx'));
+            for ($i = 0; $i < $zip->numFiles; $i++) {
+                if ('xlsx' === (pathinfo($zip->statIndex($i)['name'])['extension'] ?? null)) {
+                    file_put_contents($tmpPath, $zip->getFromName($zip->statIndex($i)['name']));
+                    return $tmpPath;
+                }
+            }
 
-            return $tmpPath;
+            throw new UpdaterException('Could not find the xlsx file inside of the downloaded regions zip');
         });
     }
 
