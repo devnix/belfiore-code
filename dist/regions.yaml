@@ -162,8 +162,8 @@
       region_type: state
       istat_continent_id: 1
       continent_name_it: Europa
-      istat_area_code: 11
-      area_name_it: 'Unione europea'
+      istat_area_code: 13
+      area_name_it: 'Altri paesi europei'
       istat_id: 219
       name_it: 'Regno Unito'
       name_en: 'United Kingdom'
