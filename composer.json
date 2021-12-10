@@ -8,6 +8,11 @@
             "Devnix\\BelfioreCode\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Devnix\\BelfioreCode\\": "test/"
+        }
+    },
     "require-dev": {
         "ext-zip": "*",
         "symfony/console": "^4.4|^5.0",

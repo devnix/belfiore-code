@@ -2,13 +2,12 @@
 
 namespace Devnix\BelfioreCode\Collection;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\ErrorHandler\ErrorHandler;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Serializer;
 
-class RegionCollection extends ArrayCollection
+class RegionCollection extends AbstractCollection
 {
     protected const JSON_PATH = __DIR__.'/../../dist/regions.json';
 
