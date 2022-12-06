@@ -21,7 +21,7 @@ final class Updater
      * @link https://developers.italia.it/en/anpr
      * @license cc-by-3.0
      */
-    protected const CITIES = 'https://raw.githubusercontent.com/italia/anpr/master/src/archivi/ANPR_archivio_comuni.csv';
+    protected const CITIES = 'https://www.anagrafenazionale.interno.it/wp-content/uploads/ANPR_archivio_comuni.csv';
 
     /**
      * @var string
