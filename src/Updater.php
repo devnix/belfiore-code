@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * (c) Pablo Largo Mohedano <devnix.code@gmail.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Devnix\BelfioreCode;
 
 use Devnix\BelfioreCode\Converter\CitiesConverter;
@@ -11,21 +17,23 @@ use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Serializer;
-use ZipArchive;
 
 final class Updater
 {
     /**
      * @var string
      *
-     * @link https://developers.italia.it/en/anpr
+     * @see https://developers.italia.it/en/anpr
+     *
      * @license cc-by-3.0
      */
     protected const CITIES = 'https://raw.githubusercontent.com/italia/anpr/master/src/archivi/ANPR_archivio_comuni.csv';
 
     /**
      * @var string
-     * @link https://www.istat.it
+     *
+     * @see https://www.istat.it
+     *
      * @license cc-by-4.0
      */
     protected const REGIONS = 'https://www.istat.it/wp-content/uploads/2024/03/Elenco-codici-e-denominazioni-unita-territoriali-estere.zip';
@@ -65,9 +73,7 @@ final class Updater
     }
 
     /**
-     * Fetch and update all the data
-     *
-     * @return null
+     * Fetch and update all the data.
      */
     public function generateCities(): void
     {
@@ -81,7 +87,7 @@ final class Updater
         file_put_contents(self::DESTINATION.'/cities.yaml', $citiesConverter->getYaml());
     }
 
-    public function generateRegions()
+    public function generateRegions(): void
     {
         $this->createDistDirectory();
 
@@ -119,15 +125,22 @@ final class Updater
 
             file_put_contents($tmpZip, file_get_contents(self::REGIONS));
 
-            $zip = new ZipArchive();
+            $zip = new \ZipArchive();
 
             if (!$zipStatus = $zip->open($tmpZip)) {
                 throw new ZipException($zipStatus);
             }
 
-            for ($i = 0; $i < $zip->numFiles; $i++) {
-                if ('xlsx' === (pathinfo($zip->statIndex($i)['name'])['extension'] ?? null)) {
-                    file_put_contents($tmpPath, $zip->getFromName($zip->statIndex($i)['name']));
+            for ($i = 0; $i < $zip->numFiles; ++$i) {
+                $statIndex = $zip->statIndex($i);
+
+                if (false === $statIndex) {
+                    throw new \RuntimeException("Could not get index $i from $tmpZip");
+                }
+
+                if ('xlsx' === (pathinfo($statIndex['name'])['extension'] ?? null)) {
+                    file_put_contents($tmpPath, $zip->getFromName($statIndex['name']));
+
                     return $tmpPath;
                 }
             }
@@ -144,7 +157,8 @@ final class Updater
 
         try {
             ErrorHandler::call('unlink', $this->citiesPath);
-        } catch (\Exception $e) {};
+        } catch (\Exception $e) {
+        }
 
         unset($this->citiesPath);
     }
@@ -157,7 +171,8 @@ final class Updater
 
         try {
             ErrorHandler::call('unlink', $this->regionsPath);
-        } catch (\Exception $e) {};
+        } catch (\Exception $e) {
+        }
 
         unset($this->citiesPath);
     }

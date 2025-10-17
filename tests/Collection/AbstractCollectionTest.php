@@ -1,7 +1,14 @@
 <?php
 
-namespace Devnix\BelfioreCode\Collection;
+/*
+ * (c) Pablo Largo Mohedano <devnix.code@gmail.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
+namespace Devnix\BelfioreCode\Tests\Collection;
+
+use Devnix\BelfioreCode\Collection\AbstractCollection;
 use PHPUnit\Framework\TestCase;
 
 class AbstractCollectionTest extends TestCase
@@ -71,8 +78,8 @@ class AbstractCollectionTest extends TestCase
                         'source' => '',
                         'last_update' => '2016-06-17',
                         'istat_discontinued_code' => '028500',
-                    ]
-                ]
+                    ],
+                ],
             ]
         );
 
@@ -119,7 +126,7 @@ class AbstractCollectionTest extends TestCase
                     'source' => '',
                     'last_update' => '2016-06-17',
                     'istat_discontinued_code' => '028500',
-                ]
+                ],
             ],
             $comuneCollection->groupBy('name_it')->toArray()
         );
@@ -147,7 +154,7 @@ class AbstractCollectionTest extends TestCase
                     'source' => '',
                     'last_update' => '2016-06-17',
                     'istat_discontinued_code' => '028500',
-                ]
+                ],
             ],
             $comuneCollection->groupBy('id')->toArray()
         );

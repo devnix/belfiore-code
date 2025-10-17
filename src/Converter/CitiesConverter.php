@@ -1,18 +1,21 @@
 <?php
 
+/*
+ * (c) Pablo Largo Mohedano <devnix.code@gmail.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Devnix\BelfioreCode\Converter;
 
 use Symfony\Component\ErrorHandler\ErrorHandler;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Encoder\YamlEncoder;
 use Symfony\Component\Serializer\Serializer;
 
 class CitiesConverter extends AbstractConverter
 {
     /**
-     * @var array
+     * @var array<string, string>
      */
     protected const COLUMN_MAPPING = [
         'ID' => 'id',
@@ -36,7 +39,13 @@ class CitiesConverter extends AbstractConverter
     ];
 
     /**
-     * @var array
+     * @var array{
+     *     'status': array{
+     *         'A': 'active',
+     *         'C': 'discontinued',
+     *         'D': 'to_be_established',
+     *     }
+     * }
      */
     protected const VALUE_MAPPING = [
         'status' => [
@@ -46,10 +55,7 @@ class CitiesConverter extends AbstractConverter
         ],
     ];
 
-    /**
-     * @var Serializer
-     */
-    protected $serializer;
+    protected Serializer $serializer;
 
     /**
      * @var string
@@ -57,23 +63,27 @@ class CitiesConverter extends AbstractConverter
     protected $path;
 
     /**
-     * @var array
+     * @var array<int, array<string, string>>
      */
-    protected $regions;
+    protected $cities;
 
     public function __construct(string $path)
     {
         parent::__construct();
 
         $this->path = $path;
-        $this->regions = $this->serializer->decode(ErrorHandler::call('file_get_contents', $path), 'csv', array(CsvEncoder::DELIMITER_KEY => ','));
+        $this->cities = $this->serializer->decode(ErrorHandler::call('file_get_contents', $path), 'csv', [CsvEncoder::DELIMITER_KEY => ',']);
 
-        $this->regions = $this->convertColumns($this->regions);
-        $this->regions = $this->convertValues($this->regions);
+        $this->cities = $this->convertColumns($this->cities);
+        $this->cities = $this->convertValues($this->cities);
     }
 
     /**
-     * Rename the columns
+     * Rename the columns.
+     *
+     * @param array<int, array<string, string>> $cities
+     *
+     * @return array<int, array<string, string>>
      */
     public function convertColumns(array $cities): array
     {
@@ -88,7 +98,11 @@ class CitiesConverter extends AbstractConverter
     }
 
     /**
-     * Convert all values using the converted columns
+     * Convert all values using the converted columns.
+     *
+     * @param array<int, array<string, string>> $cities
+     *
+     * @return array<int, array<string, string>>
      */
     public function convertValues(array $cities): array
     {
@@ -102,11 +116,12 @@ class CitiesConverter extends AbstractConverter
                 }
             }
         }
+
         return $cities;
     }
 
     public function getData(): array
     {
-        return $this->regions;
+        return $this->cities;
     }
 }

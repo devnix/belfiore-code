@@ -2,7 +2,7 @@
     "name": "devnix/belfiore-code",
     "description": "Serialized data of Italian Belfiore codes and foreign region codes",
     "type": "library",
-    "license": "CC-BY-4.0",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "Devnix\\BelfioreCode\\": "src/"
@@ -10,7 +10,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Devnix\\BelfioreCode\\": "test/"
+            "Devnix\\BelfioreCode\\Tests\\": "tests/"
         }
     },
     "require-dev": {
@@ -21,11 +21,13 @@
         "symfony/yaml": "^4.4|^5.0",
         "devnix/zip-exception": "^0.1.0",
         "phpoffice/phpspreadsheet": "^1.10",
-        "phpunit/phpunit": "^9.0"
+        "phpunit/phpunit": "^9.0",
+        "phpstan/phpstan": "^2.1",
+        "friendsofphp/php-cs-fixer": "^3.88"
     },
     "require": {
-        "php": ">=7.1",
-        "doctrine/collections": "^1.6"
+        "php": "^8.1",
+        "doctrine/collections": "^1.8||^2.2"
     },
     "authors": [
         {

@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * (c) Pablo Largo Mohedano <devnix.code@gmail.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Devnix\BelfioreCode\Converter;
 
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
@@ -10,7 +16,7 @@ use Symfony\Component\Serializer\Serializer;
 
 abstract class AbstractConverter
 {
-    protected $serializer;
+    protected Serializer $serializer;
 
     public function __construct()
     {
@@ -22,6 +28,9 @@ abstract class AbstractConverter
         ]);
     }
 
+    /**
+     * @return array<int, array<string, int|string|null>>
+     */
     abstract public function getData(): array;
 
     public function getCsv(): string
@@ -43,12 +52,4 @@ abstract class AbstractConverter
     {
         return $this->serializer->encode($this->getData(), 'yaml');
     }
-
-    protected function getSerializer()
-    {
-        return $this->serializer;
-    }
 }
-
-
-

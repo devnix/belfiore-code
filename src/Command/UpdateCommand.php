@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * (c) Pablo Largo Mohedano <devnix.code@gmail.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Devnix\BelfioreCode\Command;
 
 use Devnix\BelfioreCode\Updater;
@@ -12,11 +18,11 @@ class UpdateCommand extends Command
 {
     protected static $defaultName = 'update';
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
-        	->setDescription('Updates the data source')
-        	->setHelp('Crawls Italian Belfiore codes and foreign region codes and updates the library from the official sources');
+            ->setDescription('Updates the data source')
+            ->setHelp('Crawls Italian Belfiore codes and foreign region codes and updates the library from the official sources');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -33,6 +39,7 @@ class UpdateCommand extends Command
         $updater->generateRegions();
 
         $io->success('Data sources generated successfully');
+
         return 0;
     }
 }

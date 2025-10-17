@@ -1,19 +1,20 @@
 <?php
 
+/*
+ * (c) Pablo Largo Mohedano <devnix.code@gmail.com>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Devnix\BelfioreCode\Converter;
 
 use PhpOffice\PhpSpreadsheet;
-use Symfony\Component\ErrorHandler\ErrorHandler;
-use Symfony\Component\Serializer\Encoder\CsvEncoder;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Encoder\YamlEncoder;
 use Symfony\Component\Serializer\Serializer;
 
 class RegionsConverter extends AbstractConverter
 {
     /**
-     * @var array
+     * @var array<string, string>
      */
     protected const COLUMN_MAPPING = [
         'Stato(S)/Territorio(T)' => 'region_type',
@@ -34,7 +35,12 @@ class RegionsConverter extends AbstractConverter
     ];
 
     /**
-     * @var array
+     * @var array{
+     *     'region_type': array{
+     *         'S': 'state',
+     *         'T': 'territory',
+     *     }
+     * }
      */
     protected const VALUE_MAPPING = [
         'region_type' => [
@@ -43,10 +49,7 @@ class RegionsConverter extends AbstractConverter
         ],
     ];
 
-    /**
-     * @var Serializer
-     */
-    protected $serializer;
+    protected Serializer $serializer;
 
     /**
      * @var string
@@ -54,7 +57,7 @@ class RegionsConverter extends AbstractConverter
     protected $path;
 
     /**
-     * @var array
+     * @var array<int, array<string, int|string|null>>
      */
     protected $regions;
 
@@ -64,7 +67,7 @@ class RegionsConverter extends AbstractConverter
 
         $this->path = $path;
 
-        $xlsxReader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+        $xlsxReader = new PhpSpreadsheet\Reader\Xlsx();
         $xlsxReader->setReadDataOnly(true)->setReadEmptyCells(false);
         $spreadsheet = $xlsxReader->load($this->path);
 
@@ -72,25 +75,32 @@ class RegionsConverter extends AbstractConverter
         $header = array_shift($rawData);
 
         $header = $this->convertColumns($header);
-        $this->regions = $this->setKeys($header, $rawData);
 
-        $this->regions = $this->convertValues($this->regions);
+        $this->regions = $this->convertValues($this->setKeys($header, $rawData));
     }
 
     /**
-     * Rename the columns
+     * Rename the columns.
+     *
+     * @param array<string, string|null> $regions
+     *
+     * @return array<string, string|null>
      */
     public function convertColumns(array $regions): array
     {
         foreach ($regions as $key => $value) {
-            $regions[$key] = self::COLUMN_MAPPING[$value] ?? $regions[$key];
+            $regions[$key] = self::COLUMN_MAPPING[$value] ?? $value;
         }
 
         return $regions;
     }
 
     /**
-     * Convert all values using the converted columns
+     * Convert all values using the converted columns.
+     *
+     * @param array<int, array<string, int|string|null>> $regions
+     *
+     * @return array<int, array<string, int|string|null>>
      */
     public function convertValues(array $regions): array
     {
@@ -105,20 +115,25 @@ class RegionsConverter extends AbstractConverter
                 }
             }
             // Remove empty keys due to a possible bug in phpspreadsheet
-            $regions[$regionKey] = array_filter($regions[$regionKey], function($value) {
-                return !is_null($value) && $value !== '';
-            }, ARRAY_FILTER_USE_KEY);
+            $regions[$regionKey] = array_filter($regions[$regionKey], function ($value) {
+                return null !== $value && '' !== $value; // @phpstan-ignore notIdentical.alwaysTrue
+            }, \ARRAY_FILTER_USE_KEY);
         }
 
         return $regions;
     }
 
-
+    /**
+     * @param array<string, string|null>                 $header
+     * @param array<int, array<string, int|string|null>> $data
+     *
+     * @return array<int, array<string, int|string|null>>
+     */
     public function setKeys(array $header, array $data): array
     {
         foreach ($data as $position => $region) {
             foreach ($region as $key => $value) {
-                $data[$position] = array_combine($header, $region);
+                $data[$position] = array_combine($header, $region); // @phpstan-ignore argument.type
             }
         }
 
