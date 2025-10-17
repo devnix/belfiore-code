@@ -28,7 +28,7 @@ final class Updater
      * @link https://www.istat.it
      * @license cc-by-4.0
      */
-    protected const REGIONS = 'https://www.istat.it/it/files/2011/01/Elenco-codici-e-denominazioni-unita-territoriali-estere.zip';
+    protected const REGIONS = 'https://www.istat.it/wp-content/uploads/2024/03/Elenco-codici-e-denominazioni-unita-territoriali-estere.zip';
 
     /**
      * @var string

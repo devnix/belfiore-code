@@ -24,7 +24,7 @@ class CitiesConverter extends AbstractConverter
         'DENOMTRASLITTERATA' => 'name_transliterated',
         'ALTRADENOMINAZIONE' => 'alternative_name',
         'ALTRADENOMTRASLITTERATA' => 'alternative_name_transliterated',
-        'IDPROVINCIA' => 'anpr_id',
+        'ID_PROVINCIA' => 'anpr_id',
         'IDPROVINCIAISTAT' => 'istat_province_id',
         'IDREGIONE' => 'istat_region_id',
         'IDPREFETTURA' => 'istat_prefecture_id',
