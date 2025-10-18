@@ -1,6 +1,6 @@
 # devnix/belfiore-code
 
-[![Join the chat at https://gitter.im/DevNIX/belfiore-code](https://badges.gitter.im/DevNIX/belfiore-code.svg)](https://gitter.im/DevNIX/belfiore-code?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Coverage Status](https://coveralls.io/repos/github/devnix/belfiore-code/badge.svg)](https://coveralls.io/github/devnix/belfiore-code)
 
 Official Italian Belfiore code list (cadastral code) which represents a 
 [comune](https://en.wikipedia.org/wiki/Comune).
