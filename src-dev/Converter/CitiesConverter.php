@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * (c) Pablo Largo Mohedano <devnix.code@gmail.com>
  * For the full copyright and license information, please view the LICENSE
@@ -58,21 +60,14 @@ class CitiesConverter extends AbstractConverter
     protected Serializer $serializer;
 
     /**
-     * @var string
-     */
-    protected $path;
-
-    /**
      * @var array<int, array<string, string>>
      */
     protected $cities;
 
-    public function __construct(string $path)
+    public function __construct(protected string $path)
     {
         parent::__construct();
-
-        $this->path = $path;
-        $this->cities = $this->serializer->decode(ErrorHandler::call('file_get_contents', $path), 'csv', [CsvEncoder::DELIMITER_KEY => ',']);
+        $this->cities = $this->serializer->decode(ErrorHandler::call('file_get_contents', $this->path), 'csv', [CsvEncoder::DELIMITER_KEY => ',']);
 
         $this->cities = $this->convertColumns($this->cities);
         $this->cities = $this->convertValues($this->cities);
@@ -106,7 +101,7 @@ class CitiesConverter extends AbstractConverter
      */
     public function convertValues(array $cities): array
     {
-        foreach ($cities as $cityKey => $cityValue) {
+        foreach (array_keys($cities) as $cityKey) {
             foreach (self::VALUE_MAPPING as $column => $values) {
                 foreach ($values as $oldValue => $newValue) {
                     if ($cities[$cityKey][$column] == $oldValue) {
@@ -120,6 +115,9 @@ class CitiesConverter extends AbstractConverter
         return $cities;
     }
 
+    /**
+     * @return array<int, array<string, string>>
+     */
     public function getData(): array
     {
         return $this->cities;

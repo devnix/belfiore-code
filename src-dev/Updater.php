@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * (c) Pablo Largo Mohedano <devnix.code@gmail.com>
  * For the full copyright and license information, please view the LICENSE
@@ -13,10 +15,6 @@ use Devnix\BelfioreCode\Converter\RegionsConverter;
 use Devnix\BelfioreCode\Exception\UpdaterException;
 use Devnix\ZipException\ZipException;
 use Symfony\Component\ErrorHandler\ErrorHandler;
-use Symfony\Component\Serializer\Encoder\CsvEncoder;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Serializer;
 
 final class Updater
 {
@@ -43,25 +41,12 @@ final class Updater
      */
     protected const DESTINATION = __DIR__.'/../dist';
 
-    /**
-     * @var Serializer
-     */
-    protected $serializer;
+    private string $citiesPath;
 
-    /**
-     * @var string
-     */
-    protected $citiesPath;
-
-    /**
-     * @var string
-     */
-    protected $regionsPath;
+    private readonly string $regionsPath;
 
     public function __construct()
     {
-        $this->serializer = new Serializer([], [new CsvEncoder(), new XmlEncoder(), new JsonEncoder()]);
-
         $this->citiesPath = $this->downloadTmpCities();
         $this->regionsPath = $this->downloadTmpRegions();
     }
@@ -99,14 +84,14 @@ final class Updater
         file_put_contents(self::DESTINATION.'/regions.yaml', $regionsConverter->getYaml());
     }
 
-    protected function createDistDirectory(): void
+    private function createDistDirectory(): void
     {
         if (!is_dir(self::DESTINATION)) {
             ErrorHandler::call('mkdir', self::DESTINATION);
         }
     }
 
-    protected function downloadTmpCities(): string
+    private function downloadTmpCities(): string
     {
         return ErrorHandler::call(static function () {
             $tmpPath = tempnam(sys_get_temp_dir(), 'devnix-belfiore-code-cities.csv.');
@@ -117,7 +102,7 @@ final class Updater
         });
     }
 
-    protected function downloadTmpRegions(): string
+    private function downloadTmpRegions(): string
     {
         return ErrorHandler::call(static function () {
             $tmpZip = tempnam(sys_get_temp_dir(), 'devnix-belfiore-code-cities.zip.');
@@ -125,21 +110,21 @@ final class Updater
 
             file_put_contents($tmpZip, file_get_contents(self::REGIONS));
 
-            $zip = new \ZipArchive();
+            $zipArchive = new \ZipArchive();
 
-            if (!$zipStatus = $zip->open($tmpZip)) {
+            if (!$zipStatus = $zipArchive->open($tmpZip)) {
                 throw new ZipException($zipStatus);
             }
 
-            for ($i = 0; $i < $zip->numFiles; ++$i) {
-                $statIndex = $zip->statIndex($i);
+            for ($i = 0; $i < $zipArchive->numFiles; ++$i) {
+                $statIndex = $zipArchive->statIndex($i);
 
                 if (false === $statIndex) {
-                    throw new \RuntimeException("Could not get index $i from $tmpZip");
+                    throw new \RuntimeException(\sprintf('Could not get index %d from %s', $i, $tmpZip));
                 }
 
                 if ('xlsx' === (pathinfo($statIndex['name'])['extension'] ?? null)) {
-                    file_put_contents($tmpPath, $zip->getFromName($statIndex['name']));
+                    file_put_contents($tmpPath, $zipArchive->getFromName($statIndex['name']));
 
                     return $tmpPath;
                 }
@@ -149,29 +134,29 @@ final class Updater
         });
     }
 
-    protected function removeTmpCities(): void
+    private function removeTmpCities(): void
     {
-        if (empty($this->citiesPath)) {
+        if ('' === $this->citiesPath || '0' === $this->citiesPath) {
             return;
         }
 
         try {
             ErrorHandler::call('unlink', $this->citiesPath);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
         }
 
         unset($this->citiesPath);
     }
 
-    protected function removeTmpRegions(): void
+    private function removeTmpRegions(): void
     {
-        if (empty($this->citiesPath)) {
+        if ('' === $this->citiesPath || '0' === $this->citiesPath) {
             return;
         }
 
         try {
             ErrorHandler::call('unlink', $this->regionsPath);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
         }
 
         unset($this->citiesPath);

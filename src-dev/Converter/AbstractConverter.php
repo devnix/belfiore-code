@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * (c) Pablo Largo Mohedano <devnix.code@gmail.com>
  * For the full copyright and license information, please view the LICENSE

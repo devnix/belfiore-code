@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * (c) Pablo Largo Mohedano <devnix.code@gmail.com>
  * For the full copyright and license information, please view the LICENSE
@@ -11,11 +13,11 @@ namespace Devnix\BelfioreCode\Tests\Collection;
 use Devnix\BelfioreCode\Collection\AbstractCollection;
 use PHPUnit\Framework\TestCase;
 
-class AbstractCollectionTest extends TestCase
+final class AbstractCollectionTest extends TestCase
 {
     public function testGroupBy(): void
     {
-        $comuneCollection = $stub = $this->getMockForAbstractClass(
+        $comuneCollection = $this->getMockForAbstractClass(
             AbstractCollection::class,
             [
                 [

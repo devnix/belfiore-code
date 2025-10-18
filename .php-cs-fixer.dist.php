@@ -16,6 +16,7 @@ return (new PhpCsFixer\Config())
     ->setFinder(
         (new PhpCsFixer\Finder())
             ->in(__DIR__.'/src')
+            ->in(__DIR__.'/src-dev')
             ->in(__DIR__.'/tests')
     )
     ->setParallelConfig(PhpCsFixer\Runner\Parallel\ParallelConfigFactory::detect())

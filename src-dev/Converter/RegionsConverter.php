@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * (c) Pablo Largo Mohedano <devnix.code@gmail.com>
  * For the full copyright and license information, please view the LICENSE
@@ -52,24 +54,17 @@ class RegionsConverter extends AbstractConverter
     protected Serializer $serializer;
 
     /**
-     * @var string
-     */
-    protected $path;
-
-    /**
      * @var array<int, array<string, int|string|null>>
      */
-    protected $regions;
+    protected array $regions;
 
-    public function __construct(string $path)
+    public function __construct(protected string $path)
     {
         parent::__construct();
 
-        $this->path = $path;
-
-        $xlsxReader = new PhpSpreadsheet\Reader\Xlsx();
-        $xlsxReader->setReadDataOnly(true)->setReadEmptyCells(false);
-        $spreadsheet = $xlsxReader->load($this->path);
+        $xlsx = new PhpSpreadsheet\Reader\Xlsx();
+        $xlsx->setReadDataOnly(true)->setReadEmptyCells(false);
+        $spreadsheet = $xlsx->load($this->path);
 
         $rawData = $spreadsheet->getActiveSheet()->toArray(null, true, false, true);
         $header = array_shift($rawData);
@@ -104,7 +99,7 @@ class RegionsConverter extends AbstractConverter
      */
     public function convertValues(array $regions): array
     {
-        foreach ($regions as $regionKey => $regionValue) {
+        foreach (array_keys($regions) as $regionKey) {
             foreach (self::VALUE_MAPPING as $column => $values) {
                 // dd([$column => $values]);
                 foreach ($values as $oldValue => $newValue) {
@@ -114,8 +109,9 @@ class RegionsConverter extends AbstractConverter
                     }
                 }
             }
+
             // Remove empty keys due to a possible bug in phpspreadsheet
-            $regions[$regionKey] = array_filter($regions[$regionKey], function ($value) {
+            $regions[$regionKey] = array_filter($regions[$regionKey], function ($value): bool {
                 return null !== $value && '' !== $value; // @phpstan-ignore notIdentical.alwaysTrue
             }, \ARRAY_FILTER_USE_KEY);
         }
@@ -132,7 +128,7 @@ class RegionsConverter extends AbstractConverter
     public function setKeys(array $header, array $data): array
     {
         foreach ($data as $position => $region) {
-            foreach ($region as $key => $value) {
+            foreach ($region as $value) {
                 $data[$position] = array_combine($header, $region); // @phpstan-ignore argument.type
             }
         }
@@ -140,6 +136,9 @@ class RegionsConverter extends AbstractConverter
         return $data;
     }
 
+    /**
+     * @return array<int, array<string, int|string|null>>
+     */
     public function getData(): array
     {
         return $this->regions;

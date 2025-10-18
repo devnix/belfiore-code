@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * (c) Pablo Largo Mohedano <devnix.code@gmail.com>
  * For the full copyright and license information, please view the LICENSE
@@ -27,18 +29,19 @@ class UpdateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new SymfonyStyle($input, $output);
+        $symfonyStyle = new SymfonyStyle($input, $output);
 
-        $io->writeln('Updating sources');
+        $symfonyStyle->writeln('Updating sources');
+
         $updater = new Updater();
 
-        $io->writeln('Generating list of cities');
+        $symfonyStyle->writeln('Generating list of cities');
         $updater->generateCities();
 
-        $io->writeln('Generating list of regions');
+        $symfonyStyle->writeln('Generating list of regions');
         $updater->generateRegions();
 
-        $io->success('Data sources generated successfully');
+        $symfonyStyle->success('Data sources generated successfully');
 
         return 0;
     }
