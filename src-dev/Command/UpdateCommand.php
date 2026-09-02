@@ -36,13 +36,40 @@ class UpdateCommand extends Command
         $updater = new Updater();
 
         $symfonyStyle->writeln('Generating list of cities');
-        $updater->generateCities();
+        if (!$updater->generateCities()) {
+            $symfonyStyle->warning('Cities source skipped (unavailable)');
+        }
 
         $symfonyStyle->writeln('Generating list of regions');
-        $updater->generateRegions();
+        if (!$updater->generateRegions()) {
+            $symfonyStyle->warning('Regions source skipped (unavailable)');
+        }
+
+        if ($updater->hasFailedSources()) {
+            $updater->writeUnavailableLog();
+
+            $rows = [];
+            foreach ($updater->getFailedSources() as $name => $info) {
+                $rows[] = [$name, $info['url'], $info['error']];
+            }
+
+            $symfonyStyle->section('Unavailable sources');
+            $symfonyStyle->table(['Source', 'URL', 'Error'], $rows);
+            $symfonyStyle->note('Details appended to var/unavailable_sources.txt');
+
+            if ([] === array_diff_key(['cities' => null, 'regions' => null], $updater->getFailedSources())) {
+                $symfonyStyle->error('All sources failed. No data was generated.');
+
+                return Command::FAILURE;
+            }
+
+            $symfonyStyle->success('Data sources partially generated. Check warnings above.');
+
+            return Command::SUCCESS;
+        }
 
         $symfonyStyle->success('Data sources generated successfully');
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

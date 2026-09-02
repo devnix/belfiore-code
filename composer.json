@@ -21,7 +21,7 @@
         "symfony/error-handler": "^5.4|^6.0",
         "symfony/yaml": "^5.4|^6.0",
         "devnix/zip-exception": "^0.1.0",
-        "phpoffice/phpspreadsheet": "^1.10",
+        "phpoffice/phpspreadsheet": "^1.10|^2.0",
         "phpunit/phpunit": "^10.5",
         "phpstan/phpstan": "^2.1",
         "friendsofphp/php-cs-fixer": "^3.88",
